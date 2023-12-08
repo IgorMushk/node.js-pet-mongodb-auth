@@ -3,7 +3,7 @@ class AuthService {
     }
 
     register(payload){
-        console.log(payload);
+        console.log('services-auth register :', payload);
         return payload;
     };
 }
