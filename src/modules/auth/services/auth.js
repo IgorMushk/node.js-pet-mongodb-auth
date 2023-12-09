@@ -1,6 +1,8 @@
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const usersService = require('../../users/services/users');
 const HttpError = require('../../common/models/HttpError');
+const { JWT_SECRET } = require('../../common/constants/env');
 
 class AuthService {
     constructor(usersService) {
@@ -36,20 +38,21 @@ class AuthService {
         if (!arePasswordsEqual) {
           throw new HttpError(401, 'Email and password does not match!');
         }
-    
-        // const accessToken = jwt.sign(
-        //   {
-        //     sub: user._id,
-        //     email: user.email,
-        //   },
-        //   JWT_SECRET,
-        //   { expiresIn: 120 },
-        // );
-    
+        
+        const accessToken = jwt.sign(
+          {
+            sub: user._id,
+            email: user.email,
+          },
+          JWT_SECRET,
+          { expiresIn: 3600 },
+        );
+        console.log(accessToken);
         // const refreshToken = crypto.randomBytes(8).toString('base64');
         // await this.usersService.updateUserById(user._id, { refreshToken });
     
-        // return { accessToken, refreshToken };
+        return accessToken;
+        //return { accessToken, refreshToken };
       }
 
 }

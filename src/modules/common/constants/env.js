@@ -9,6 +9,7 @@ const {
     DB_MONGO_PASSWORD,
     DB_MONGO_DATABASE,
     DB_MONGO_PORT,
+    JWT_SECRET,
   } = process.env;
 
   if(!DB_MONGO_HOST) {
@@ -36,6 +37,10 @@ const {
     console.log('DB_MONGO_PORT is not set');
     process.exit(1);
   }
+  if (!JWT_SECRET) {
+    console.log('JWT_SECRET is not set');
+    process.exit(1);
+  }
 
   module.exports = {
     DB_MONGO_HOST,
@@ -43,4 +48,5 @@ const {
     DB_MONGO_PASSWORD,
     DB_MONGO_DATABASE,
     DB_MONGO_PORT,
+    JWT_SECRET,
   }

@@ -6,9 +6,11 @@ class AuthController {
       }
     
     login = async (req, res) => {
-        const user = await this.authService.login(req.body);
-        //res.json({ status: 200, message: 'User logged in successfully!',data: { token: accessToken,},});
-        res.json({status: 200, message : "User logged in successfully!", data: user,})
+        //const user = await this.authService.login(req.body);
+        const accessToken = await this.authService.login(req.body,);
+        //res.json({status: 200, message : "User logged in successfully!", data: user,})
+        res.json({ status: 200, message: 'User logged in successfully!', data: { token: accessToken,},});
+        
     };
 
     register = async (req, res) => {
