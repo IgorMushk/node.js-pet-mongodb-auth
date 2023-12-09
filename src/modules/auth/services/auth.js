@@ -1,12 +1,12 @@
 const bcrypt = require('bcrypt');
 const usersService = require('../../users/services/users');
+const HttpError = require('../../common/models/HttpError');
 
 class AuthService {
     constructor(usersService) {
         this.usersService = usersService;
       }
     
-
     async register(payload){
         console.log('services-auth register :');
         console.log( payload);
@@ -19,8 +19,39 @@ class AuthService {
             password: passwordHash,
         });
         console.log(user);
-        return payload;
+        //return payload;
+        return user;
     };
+
+    async login(payload) {
+        const { email, password } = payload;
+        const user = await usersService.findByEmail(email);
+        console.log('user :', user);
+    
+        if (!user) {
+          throw new HttpError(404, 'User not found!');
+        }
+    
+        const arePasswordsEqual = await bcrypt.compare(password, user.password);
+        if (!arePasswordsEqual) {
+          throw new HttpError(401, 'Email and password does not match!');
+        }
+    
+        // const accessToken = jwt.sign(
+        //   {
+        //     sub: user._id,
+        //     email: user.email,
+        //   },
+        //   JWT_SECRET,
+        //   { expiresIn: 120 },
+        // );
+    
+        // const refreshToken = crypto.randomBytes(8).toString('base64');
+        // await this.usersService.updateUserById(user._id, { refreshToken });
+    
+        // return { accessToken, refreshToken };
+      }
+
 }
 
 const authService = new AuthService(usersService);
