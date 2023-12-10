@@ -12,12 +12,18 @@ class UsersRepository {
         return users[0];
       }
     
-
     async updateById(id, payload) {
         const user = await User.findByIdAndUpdate(id, payload);
         return user;
       }
     
+    async findUserByRefreshToken(token) {
+       const users = await User.find().where('refreshToken').equals(token);
+    
+       return users[0];
+    }
+    
+
 }
 
 const usersRepository = new UsersRepository();

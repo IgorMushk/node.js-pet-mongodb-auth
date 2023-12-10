@@ -20,7 +20,24 @@ class AuthController {
     res.json({ status: 200, message: "User registered successful", data: user });
   };
 
-  refresh = async (req, res) => {};
+  refresh = async (req, res) => {
+    const { refreshToken } = req.cookies;
+    const { accessToken, refreshToken: newRefreshToken } =
+      await this.authService.refreshAccess(refreshToken);
+
+    res.cookie('refreshToken', newRefreshToken, {
+      secure: true,
+      httpOnly: true,
+    });
+
+    res.json({
+      status: 200,
+      message: 'Token refreshed!',
+      data: {
+        token: accessToken,
+      },
+    });
+  };
 
   logout = async (req, res) => {};
 }
