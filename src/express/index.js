@@ -1,4 +1,6 @@
 const express = require("express");
+var cookieParser = require('cookie-parser')
+
 const assignRequestId = require("./middlewares/assignRequestId");
 const getLogger = require("./middlewares/logger");
 const handleError = require("./middlewares/handleerror");
@@ -10,6 +12,7 @@ const app = express();
 app.use(express.json());
 // x-www-form-urlencoded
 //app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser())
 
 app.use(assignRequestId);
 

@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt');
+const crypto = require('node:crypto');
 const jwt = require('jsonwebtoken');
 const usersService = require('../../users/services/users');
 const HttpError = require('../../common/models/HttpError');
@@ -47,12 +48,12 @@ class AuthService {
           JWT_SECRET,
           { expiresIn: 3600 },
         );
-        console.log(accessToken);
-        // const refreshToken = crypto.randomBytes(8).toString('base64');
-        // await this.usersService.updateUserById(user._id, { refreshToken });
+
+        const refreshToken = crypto.randomBytes(8).toString('base64');      
+        console.log('services-auth :', accessToken, refreshToken);
+        await this.usersService.updateUserById(user._id, { refreshToken });
     
-        return accessToken;
-        //return { accessToken, refreshToken };
+        return {accessToken, refreshToken};
       }
 
 }
