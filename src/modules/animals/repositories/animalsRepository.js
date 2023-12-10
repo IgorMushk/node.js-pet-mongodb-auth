@@ -18,7 +18,7 @@ class AnimalRepository {
     
     async findAll(config) {
       const {page, limit, isVaccinated, sortBy, order, minAge} = config;
-      console.log(minAge)
+      //console.log(minAge)
         const skip = (page - 1) * limit
         //console.log(config);
 
