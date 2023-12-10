@@ -39,7 +39,14 @@ class AuthController {
     });
   };
 
-  logout = async (req, res) => {};
+  logout = async (req, res) => {
+        res.clearCookie('refreshToken');
+    res.json({
+      status: 200,
+      message: 'User is logged out!',
+    });
+  };
+
 }
 const authController = new AuthController(authService);
 
